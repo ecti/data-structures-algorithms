@@ -10,15 +10,15 @@ class Node {
 exports.Node = Node;
 
 /**
- * Create a binary tree from array
+ * Serialize an array into a binary tree
  */
-exports.create = (array) => {
+exports.serialize = (array) => {
     if (!array || array.length === 0) {
         return null;
     }
 
-    const queue = []; 
     const root = new Node(array[0]);
+    const queue = [];
     queue.push(root);
 
     for (let i = 1; i < array.length; i += 2) {
@@ -28,10 +28,37 @@ exports.create = (array) => {
 
         queue.push(left, right);
 
-        node.left = left;
-        node.right = right;
+        if (node) {
+            node.left = left;
+            node.right = right;
+        }
     }
 
     return root;
 };
 
+/**
+ * Deserialize a binary tree into an array
+ */
+exports.deserialize = (root) => {
+    if (!root) {
+        return [];
+    }
+
+    const result = [];
+    const queue = [];
+    queue.push(root);
+
+    while (queue.length > 0) {
+        const node = queue.shift();
+        result.push(node.data);
+        if (node.left) {
+            queue.push(node.left);
+        }
+        if (node.right) {
+            queue.push(node.right);
+        }
+    }
+
+    return result;
+};
