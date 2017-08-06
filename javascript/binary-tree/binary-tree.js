@@ -18,14 +18,14 @@ exports.serialize = (array) => {
     }
 
     const root = new Node(array[0]);
-    const queue = [];
+    const queue = []; 
     queue.push(root);
 
     for (let i = 1; i < array.length; i += 2) {
         const node = queue.shift();
         const left = (array[i] && new Node(array[i])) || null;
         const right = (array[i + 1] && new Node(array[i + 1])) || null;
-
+        
         queue.push(left, right);
 
         if (node) {
@@ -35,30 +35,4 @@ exports.serialize = (array) => {
     }
 
     return root;
-};
-
-/**
- * Deserialize a binary tree into an array
- */
-exports.deserialize = (root) => {
-    if (!root) {
-        return [];
-    }
-
-    const result = [];
-    const queue = [];
-    queue.push(root);
-
-    while (queue.length > 0) {
-        const node = queue.shift();
-        result.push(node.data);
-        if (node.left) {
-            queue.push(node.left);
-        }
-        if (node.right) {
-            queue.push(node.right);
-        }
-    }
-
-    return result;
 };
