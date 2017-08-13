@@ -19,7 +19,49 @@ const postorderTraversalRecursive = (root, result) => {
     return result;
 };
 
-const postorderTraversalStack = (root) => {
+/**
+ * postorderTraversalStack -- method 1
+ * traverse by storing branch nodes in stack in reverse order, root, right, left
+ * keep track of traversed nodes by adding null to stack
+ * @param {*} root 
+ */
+const postorderTraversalStack1 = (root) => {
+    if (!root) {
+        return [];
+    }
+
+    const result = [];
+    const stack = [];
+    let current = root;
+
+    while (current !== null || stack.length > 0) {
+        if (current === null) {
+            let node = stack.pop();
+
+            if (node === null) {
+                node = stack.pop();
+                result.push(node.data);
+            } else if (node.right === null) {
+                result.push(node.data);
+            } else {
+                stack.push(node, null);
+                current = node.right;
+            }
+        } else {
+            stack.push(current);
+            current = current.left;
+        }
+    }
+
+    return result;
+};
+
+/**
+ * postorderTraversalStack -- method 2
+ * traverse left side while keeping track of right node and root in stack
+ * @param {*} root 
+ */
+const postorderTraversalStack2 = (root) => {
     if (!root) {
         return [];
     }
@@ -53,9 +95,12 @@ const postorderTraversalStack = (root) => {
 (() => {
     const array = [1, 2, 3, 4, 5];
     const array2 = [1, 2, 3, 4, 5, 6, 7, null, null, null, null, null, 8];
+    const array3 = [1, 2, 3, 4, 5, null, 6, null, null, null, 7];
 
     console.log('recursive: ', postorderTraversalRecursive(binaryTree.serialize(array)));
     console.log('recursive: ', postorderTraversalRecursive(binaryTree.serialize(array2)));
 
-    console.log('stack: ', postorderTraversalStack(binaryTree.serialize(array2)));
+    console.log('stack -- method 1: ', postorderTraversalStack1(binaryTree.serialize(array2)));
+    console.log('stack -- method 1: ', postorderTraversalStack1(binaryTree.serialize(array3)));
+    console.log('stack -- method 2: ', postorderTraversalStack2(binaryTree.serialize(array2)));
 })();
