@@ -5,10 +5,11 @@ Method 1: split the string by operators with respect to order of operations. * /
 Method 2: using 2 stacks, loop over every character once and process
 '''
 
-def calculate1(input):
+
+def calculate1(str):
     result = 0
 
-    multiplications = input.split('+')
+    multiplications = str.split('+')
     for i, multiplication in enumerate(multiplications):
         integers = multiplication.split('*')
         product = 1
@@ -24,9 +25,11 @@ def calculate1(input):
 
     return result
 
-def main():
-    input = '12 * 4 + 6 * 2 * 3 + 8'
 
-    print(calculate1(input))
+def main():
+    str = '12 * 4 + 6 * 2 * 3 + 8'
+
+    print(calculate1(str))
+
 
 main()
